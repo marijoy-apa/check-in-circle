@@ -1,18 +1,17 @@
 import React from "react";
-import {View, Text} from 'react-native';
+import { View, Text } from 'react-native';
+import LoginScreen from "./src/screen.js/LoginScreen";
+import { Provider } from 'react-redux';
 
+const App = () => {
+    return <Provider store={store}>
 
-const App = () =>{
-    return <View>
-        <Text>Hello world</Text>
-        <Text>Hello world</Text>
+        <View>
+            <LoginScreen />
 
-        <Text>Hello world</Text>
-        <Text>Hello world</Text>
-        <Text>Hello world</Text>
-        <Text>Hello world</Text>
+        </View>
+    </Provider>
 
-    </View>
 }
 
 export default App;
