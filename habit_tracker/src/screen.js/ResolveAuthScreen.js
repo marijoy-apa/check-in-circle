@@ -12,17 +12,17 @@ const ResolveAuthScreen = (props) => {
         props.tryLocalSignin();
     }, []);
 
-    useEffect(() => {
-        console.log('i am executed')
-        if (props.token) {
-            // navigation.dispatch(
-            //     StackActions.replace('HomeScreen')
-            // )
-            navigation.reset({ index: 0, routes: [{ name: 'HomeScreen' }] })
-        } else {
-            navigation.navigate('Login')
-        }
-    }, [props.token, navigation])
+    // useEffect(() => {
+    //     console.log('i am executed')
+    //     if (props.token) {
+    //         // navigation.dispatch(
+    //         //     StackActions.replace('HomeScreen')
+    //         // )
+    //         navigation.reset({ index: 0, routes: [{ name: 'HomeScreen' }] })
+    //     } else {
+    //         navigation.navigate('Login')
+    //     }
+    // }, [props.token, navigation])
 
     return null;
 

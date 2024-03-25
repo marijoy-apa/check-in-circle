@@ -1,67 +1,35 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import React from "react";
+import { View, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import { signin, signup } from "../action/AuthAction";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import Logo from "../components/Logo";
+import AuthForm from "../components/AuthForm";
+import NavLink from "../components/NavLink";
 
 
 const LoginScreen = (props) => {
     const navigation = useNavigation();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('')
-    const onLogin = () => {
+    const onLogin = ({ email, password }) => {
         console.log(email, password)
         props.signin({ email, password })
+        // navigation.reset({ index: 0, routes: [{ name: 'HomeScreen' }] })
+
     }
-    return <View>
-
-        <View style={styles.pageContainer}>
+    return (
+        <View
+            style={styles.pageContainer}>
             <Logo />
-
-            <View >
-                <Text style={styles.inputLabel}>Email</Text>
-                <View style={styles.textInputContainer}>
-                    <TextInput placeholder="Email"
-                        value={email}
-                        autoCapitalize="none"
-                        onChangeText={(value) => { setEmail(value) }} />
-                </View>
-
-                <Text style={styles.inputLabel}>Password</Text>
-                <View style={styles.textInputContainer}>
-                    <TextInput placeholder="Password"
-                        value={password}
-                        autoCapitalize="none"
-                        onChangeText={(value) => {
-                            setPassword(value)
-                        }}
-                    />
-                </View>
-            </View>
-            <TouchableOpacity onPress={onLogin}>
-                <View style={styles.buttonContainer}>
-                    <Text>
-                        Login
-                    </Text>
-                </View>
-            </TouchableOpacity>
-
-            <View style={styles.linkContainer}>
-                <Text style={styles.accountText}>Don't have an account?
-
-                </Text>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('Signup')
-                }}>
-                    <Text style={styles.linkText}> Sign up</Text>
-
-                </TouchableOpacity>
-            </View>
-
+            <AuthForm
+                onSubmit={onLogin}
+                submitButtonText="Login" 
+                errorMessage={props.error}
+                />
+            <NavLink
+                routeName='Signup'
+                text="Don't have and account? " />
         </View>
-
-    </View>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -70,61 +38,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: '100%',
         backgroundColor: '#FFF6D3',
-
     },
-
-    textInputContainer: {
-        marginTop: 7,
-        width: 275,
-        height: 45,
-        borderRadius: 7,
-        backgroundColor: '#FFFFFF',
-        justifyContent: 'center',
-        alignItems: 'center',
-        shadowColor: '#333333',
-        shadowOpacity: 0.2,
-        shadowOffset: {
-            width: 2,
-            height: 2
-        },
-
-    },
-    inputLabel: {
-        alignSelf: 'flex-start',
-        marginTop: 20,
-        fontWeight: '700',
-        color: '#65594E'
-    },
-    buttonContainer: {
-        marginTop: 40,
-        borderRadius: 10,
-        backgroundColor: '#FFC14D',
-        height: 45,
-        width: 120,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    accountText: {
-        marginTop: 12,
-        fontWeight: '500',
-        fontSize: 12
-    },
-    forgotPasswordText: {
-        marginTop: 5,
-        fontSize: 10,
-        alignSelf: 'flex-end'
-    },
-    linkText: {
-        marginTop: 12,
-        fontWeight: '500',
-        fontSize: 12,
-        textDecorationLine: 'underline',
-    },
-    linkContainer: {
-        flexDirection: 'row'
-    },
-
 })
 
+const mapStateToProps = (state) => {
+    console.log(state)
+    return { error: state.auth.errorMessage }
+}
 
-export default connect(null, { signup, signin })(LoginScreen);
+
+export default connect(mapStateToProps, { signup, signin })(LoginScreen);

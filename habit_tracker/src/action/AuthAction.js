@@ -1,6 +1,4 @@
-// import createDataContext from "./createDataContext";
 import habitApi from '../api/habit'
-// import { AsyncStorage } from 'react-native'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
     ADD_ERROR,
@@ -8,20 +6,22 @@ import {
     SIGN_IN,
     SIGN_OUT
 } from './types';
-// import { navigate } from "../navigationRef";
 
 export const signup = ({ email, password }) => {
     console.log('signup', email, password)
     return async (dispatch) => {
         try {
+            if (!email || !password) {
+                dispatch({ type: ADD_ERROR, payload: 'Email and password should be populated' })
+                return;
+            }
             const response = await habitApi.post('/signup', { email, password });
             await AsyncStorage.setItem('token', response.data.token);
             dispatch({ type: SIGN_IN, payload: response.data.token });
-            // navigate('TrackList')
             console.log(response)
         } catch (error) {
             console.log(error);
-            dispatch({ type: ADD_ERROR, payload: 'Something went wrong with sign up' })
+            dispatch({ type: ADD_ERROR, payload: 'Email or password is invalid' })
         }
 
 
@@ -30,15 +30,18 @@ export const signup = ({ email, password }) => {
 
 export const signin = ({ email, password }) => async (dispatch) => {
     try {
+        if (!email || !password) {
+            dispatch({ type: ADD_ERROR, payload: 'Email and password should be populated' })
+            return;
+        }
         const response = await habitApi.post('/signin', { email, password });
         await AsyncStorage.setItem('token', response.data.token);
         dispatch({ type: SIGN_IN, payload: response.data.token });
-        // navigate('TrackList');
         console.log(response.data)
     } catch (error) {
         console.log('errow with signing in')
         console.log(error.response.data);
-        dispatch({ type: ADD_ERROR, payload: 'Something went wrong with sign in' })
+        dispatch({ type: ADD_ERROR, payload: 'Invalid email or password' })
     }
 
 
@@ -51,7 +54,6 @@ export const tryLocalSignin = () => async (dispatch) => {
     if (token) {
         console.log('dispatch token')
         dispatch({ type: SIGN_IN, payload: token });
-        // navigate('TrackList');
     }
     else {
         // navigate('Signup');

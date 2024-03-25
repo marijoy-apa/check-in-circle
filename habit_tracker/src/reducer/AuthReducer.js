@@ -12,6 +12,7 @@ export default (state = INITIAL_STATE, action) => {
     console.log(action)
     switch (action.type) {
         case ADD_ERROR:
+            console.log('adding error')
             return { ...state, errorMessage: action.payload }
         case SIGN_IN:
             console.log('reducer for sign in', action.payload)

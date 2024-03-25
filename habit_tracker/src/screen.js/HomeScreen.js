@@ -9,9 +9,14 @@ const HomeScreen = (props) => {
     const navigation = useNavigation()
     return <View>
         <Text>Hello world</Text>
+        <Text>Hello world</Text>
+        <Text>Hello world</Text>
+        <Text>Hello world</Text>
+        <Text>Hello world</Text>
+
         <TouchableOpacity onPress={() => {
             props.signout();
-            navigation.reset({ index: 0, routes: [{ name: 'Login' }] })
+            // navigation.reset({ index: 0, routes: [{ name: 'Login' }] })
 
         }}>
             <Text>

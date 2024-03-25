@@ -6,46 +6,47 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import Logo from "../components/Logo";
 
 
-const AuthForm = (props) => {
-    const navigation = useNavigation();
+const AuthForm = ({ submitButtonText, onSubmit, errorMessage }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')
-    const onLogin = () => {
-        console.log(email, password)
-        props.signin({ email, password })
-    }
-    return <View>
-        <View >
-            <Text style={styles.inputLabel}>Email</Text>
-            <View style={styles.textInputContainer}>
-                <TextInput placeholder="Email"
-                    value={email}
-                    autoCapitalize="none"
-                    onChangeText={(value) => { setEmail(value) }} />
-            </View>
 
-            <Text style={styles.inputLabel}>Password</Text>
-            <View style={styles.textInputContainer}>
-                <TextInput placeholder="Password"
-                    value={password}
-                    autoCapitalize="none"
-                    onChangeText={(value) => {
-                        setPassword(value)
-                    }}
-                />
-            </View>
+    const onClickSubmit = () => {
+        onSubmit({ email, password })
+    }
+    return <View style={styles.pageContainer}>
+        {/* <View > */}
+        <Text style={styles.inputLabel}>Email</Text>
+        <View style={styles.textInputContainer}>
+            <TextInput placeholder="Email"
+                style={styles.textInputStyle}
+
+                value={email}
+                autoCapitalize="none"
+                onChangeText={(value) => { setEmail(value) }} />
         </View>
 
-        <TouchableOpacity onPress={onLogin}>
+        <Text style={styles.inputLabel}>Password</Text>
+        <View style={styles.textInputContainer}>
+            <TextInput
+                style={styles.textInputStyle}
+                placeholder="Password"
+                value={password}
+                autoCapitalize="none"
+                onChangeText={(value) => {
+                    setPassword(value)
+                }}
+            />
+        </View>
+
+        {errorMessage ? <Text style={styles.errorMessage}>{errorMessage}</Text> : null}
+
+        <TouchableOpacity onPress={onClickSubmit}>
             <View style={styles.buttonContainer}>
                 <Text>
-                    Login
+                    {submitButtonText}
                 </Text>
             </View>
         </TouchableOpacity>
-
-
-
     </View>
 }
 
@@ -53,9 +54,12 @@ const styles = StyleSheet.create({
     pageContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100%',
-        backgroundColor: '#FFF6D3',
-
+    },
+    errorMessage: {
+        marginTop: 25,
+        marginLeft: 15,
+        fontSize: 12,
+        color: "red",
     },
 
     textInputContainer: {
@@ -74,6 +78,10 @@ const styles = StyleSheet.create({
         },
 
     },
+    textInputStyle: {
+        width: '100%',
+        textAlign: 'center'
+    },
     inputLabel: {
         alignSelf: 'flex-start',
         marginTop: 20,
@@ -89,25 +97,25 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    accountText: {
-        marginTop: 12,
-        fontWeight: '500',
-        fontSize: 12
-    },
-    forgotPasswordText: {
-        marginTop: 5,
-        fontSize: 10,
-        alignSelf: 'flex-end'
-    },
-    linkText: {
-        marginTop: 12,
-        fontWeight: '500',
-        fontSize: 12,
-        textDecorationLine: 'underline',
-    },
-    linkContainer: {
-        flexDirection: 'row'
-    },
+    // accountText: {
+    //     marginTop: 12,
+    //     fontWeight: '500',
+    //     fontSize: 12
+    // },
+    // forgotPasswordText: {
+    //     marginTop: 5,
+    //     fontSize: 10,
+    //     alignSelf: 'flex-end'
+    // },
+    // linkText: {
+    //     marginTop: 12,
+    //     fontWeight: '500',
+    //     fontSize: 12,
+    //     textDecorationLine: 'underline',
+    // },
+    // linkContainer: {
+    //     flexDirection: 'row'
+    // },
 
 })
 
