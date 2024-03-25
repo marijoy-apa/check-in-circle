@@ -2,14 +2,13 @@ import 'react-native-gesture-handler';
 
 import React, { useEffect } from "react";
 import { View, Text } from 'react-native';
-import LoginScreen from "./src/screen.js/LoginScreen";
+import LoginScreen from "./src/screen/LoginScreen";
 import { Provider, useSelector, useDispatch } from 'react-redux';
 import { store } from "./src/store/store";
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack';
-import SignupScreen from './src/screen.js/SignupScreen';
-import ResolveAuthScreen from './src/screen.js/ResolveAuthScreen';
-import HomeScreen from './src/screen.js/HomeScreen';
+import SignupScreen from './src/screen/SignupScreen';
+import HomeScreen from './src/screen/HomeScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { tryLocalSignin } from './src/action/AuthAction';
 

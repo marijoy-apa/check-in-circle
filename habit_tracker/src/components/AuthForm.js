@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { connect } from "react-redux";
-import { signin, signup } from "../action/AuthAction";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import Logo from "../components/Logo";
 
 
 const AuthForm = ({ submitButtonText, onSubmit, errorMessage }) => {
