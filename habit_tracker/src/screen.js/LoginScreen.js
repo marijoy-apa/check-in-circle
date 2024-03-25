@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-
-
-const LoginScreen = () => {
-    const [userName, setUserNam] = useState('');
+import { connect } from "react-redux";
+import { signup, signin } from '../action/AuthAction'
+const LoginScreen = (props) => {
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')
     const onLogin = () => {
-        console.log(userName, password)
+        console.log(email, password)
+        props.signin({ email, password })
     }
     return <View>
 
         <View style={styles.pageContainer}>
-            <Text style={styles.inputLabel}>Username</Text>
+            <Text style={styles.inputLabel}>Email</Text>
             <View style={styles.textInputContainer}>
-                <TextInput placeholder="Username"
-                    value={userName}
+                <TextInput placeholder="Email"
+                    value={email}
                     autoCapitalize="none"
-                    onChangeText={(value) => { setUserNam(value) }} />
+                    onChangeText={(value) => { setEmail(value) }} />
             </View>
 
             <Text style={styles.inputLabel}>Password</Text>
@@ -109,4 +110,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default LoginScreen;
+export default connect(null, { signup, signin })(LoginScreen);
