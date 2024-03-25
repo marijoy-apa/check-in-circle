@@ -6,7 +6,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import Logo from "../components/Logo";
 
 
-const LoginScreen = (props) => {
+const AuthForm = (props) => {
     const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')
@@ -15,51 +15,36 @@ const LoginScreen = (props) => {
         props.signin({ email, password })
     }
     return <View>
-
-        <View style={styles.pageContainer}>
-            <Logo />
-
-            <View >
-                <Text style={styles.inputLabel}>Email</Text>
-                <View style={styles.textInputContainer}>
-                    <TextInput placeholder="Email"
-                        value={email}
-                        autoCapitalize="none"
-                        onChangeText={(value) => { setEmail(value) }} />
-                </View>
-
-                <Text style={styles.inputLabel}>Password</Text>
-                <View style={styles.textInputContainer}>
-                    <TextInput placeholder="Password"
-                        value={password}
-                        autoCapitalize="none"
-                        onChangeText={(value) => {
-                            setPassword(value)
-                        }}
-                    />
-                </View>
-            </View>
-            <TouchableOpacity onPress={onLogin}>
-                <View style={styles.buttonContainer}>
-                    <Text>
-                        Login
-                    </Text>
-                </View>
-            </TouchableOpacity>
-
-            <View style={styles.linkContainer}>
-                <Text style={styles.accountText}>Don't have an account?
-
-                </Text>
-                <TouchableOpacity onPress={() => {
-                    navigation.navigate('Signup')
-                }}>
-                    <Text style={styles.linkText}> Sign up</Text>
-
-                </TouchableOpacity>
+        <View >
+            <Text style={styles.inputLabel}>Email</Text>
+            <View style={styles.textInputContainer}>
+                <TextInput placeholder="Email"
+                    value={email}
+                    autoCapitalize="none"
+                    onChangeText={(value) => { setEmail(value) }} />
             </View>
 
+            <Text style={styles.inputLabel}>Password</Text>
+            <View style={styles.textInputContainer}>
+                <TextInput placeholder="Password"
+                    value={password}
+                    autoCapitalize="none"
+                    onChangeText={(value) => {
+                        setPassword(value)
+                    }}
+                />
+            </View>
         </View>
+
+        <TouchableOpacity onPress={onLogin}>
+            <View style={styles.buttonContainer}>
+                <Text>
+                    Login
+                </Text>
+            </View>
+        </TouchableOpacity>
+
+
 
     </View>
 }
@@ -127,4 +112,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default connect(null, { signup, signin })(LoginScreen);
+export default AuthForm;
