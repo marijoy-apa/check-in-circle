@@ -1,15 +1,28 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import { connect } from "react-redux";
 import { signout } from "../action/AuthAction";
 import { useNavigation } from "@react-navigation/native";
 import { StackActions } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HabitItem from "../components/profileScreen/HabitItem";
-
+import { fetchHabit } from "../action/CreateHabitAction";
 const ProfileScreen = (props) => {
+    useEffect(() => {
+        props.fetchHabit()
+    }, [])
     const navigation = useNavigation()
     const insets = useSafeAreaInsets();
+
+
+
+    const renderHabitItems = () => {
+        if (!props.isFetching) {
+            console.log('is done fetching')
+            return props.allHabits.map((item) => (
+                <HabitItem key={item._id} item={item} />))
+        }
+    }
     return <View style={[styles.container, { paddingTop: insets.top }]}>
 
 
@@ -39,8 +52,13 @@ const ProfileScreen = (props) => {
                 </TouchableOpacity>
             </View>
         </View>
+        {/* <ScrollView > */}
+        {/* {renderHabitItems()} */}
+        <FlatList data={props.allHabits} style={{width: '100%'}}
+            renderItem={({ item }) => <HabitItem key={item._id} item={item} />}
+            keyExtractor={(item) => item._id} />
+        {/* </ScrollView> */}
 
-        <HabitItem />
 
 
     </View>
@@ -101,6 +119,11 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: '700'
     }
-})
+});
+const mapStateToProps = (state) => {
+    const { allHabits, error, isFetching } = state.userHabits
+    console.log('user habits', isFetching)
+    return { allHabits, error, isFetching };
+}
 
-export default connect(null, { signout })(ProfileScreen);
+export default connect(mapStateToProps, { signout, fetchHabit })(ProfileScreen);

@@ -11,92 +11,43 @@ import { CheckBox } from "react-native-elements";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import NameInput from "../components/createHabit/NameInput";
 import FrequencyInput from "../components/createHabit/FrequencyInput";
+import GoalInput from "../components/createHabit/GoalInput";
+import ReminderInput from "../components/createHabit/ReminderInput";
 
 const CreateHabit = (props) => {
-    const [achieveItAll, setAchieveItAll] = useState(true)
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const insets = useSafeAreaInsets();
-
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
-    };
-
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
-    };
-
-    const handleConfirm = (date) => {
-        console.warn("A date has been picked: ", date);
-        const dateTime = new Date(date);
-        const hours = dateTime.getUTCHours();
-        const minutes = dateTime.getUTCMinutes(); // Get minutes in UTC time
-        // Convert hours and minutes to local time
-        const localHours = (hours - new Date().getTimezoneOffset() / 60) % 24; // Convert to local hours
-        // const localMinutes = minutes;
-        console.log(`Time: ${localHours}:${minutes}`);
-        hideDatePicker();
-    };
-
-    const renderReminder = () => {
-        return (
-            <View>
-                {props.reminder.map((time) => (
-                    <View style={styles.reminderTimeContainer}
-                        key={time}>
-                        <Text>{time}</Text>
-                    </View>
-                ))}
-            </View>
-        )
-    }
-
+    const navigation = useNavigation()
+    // console.log(props.goals.achieveItAll)
     const onUpdateName = (value) => {
         props.updateHabitForm({ props: 'name', value })
     }
-    const onUpdateFrequency = ({ value }) => {
+    const onUpdateFrequency = (value) => {
         props.updateHabitForm({ props: 'frequency', value })
     }
+    const onUpdateCheckbox = (value) => {
+        props.updateHabitForm({ props: 'goal', value: { achieveItAll: !props.goal.achieveItAll } })
+    }
+    const onUpdateReminder = (value) => {
+        props.updateHabitForm({ props: 'reminder', value })
+    }
+    const onSaveForm = () => {
+        props.createHabit(navigation)
+    }
 
-    const navigation = useNavigation()
     return <View style={styles.page}>
         <NameInput
             value={props.name}
             onUpdateName={onUpdateName} />
-        {/* <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Frequency</Text>
-            <View style={[styles.frequencyContainer, { minHeight: 100 }]}>
-                <TabBar onSelectPhoneType={() => { }} options={['Daily', 'Weekly', 'Interval']} preselectedOption='Daily' />
-                <DailyButtons preselectedOption={['Sunday']} options={['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']} />
-            </View>
-        </View> */}
-        <FrequencyInput preselectedValue={props.frequency} onUpdateFrequency={onUpdateFrequency} />
 
-        <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Goal</Text>
-            <View style={[styles.goalContainer]}>
-                <Text>Achieve it all</Text>
-                <CheckBox checked={props.goal.achieveItAll} checkedColor="orange" onPress={() => { setAchieveItAll(!achieveItAll) }} />
-            </View>
-        </View>
+        <FrequencyInput
+            preselectedValue={props.frequency}
+            onUpdateFrequency={onUpdateFrequency} />
 
-        <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Reminder</Text>
-            {renderReminder()}
-            <TouchableOpacity onPress={showDatePicker}>
-                <View style={[styles.addContainer]}>
-                    <Text> + Add</Text>
-                </View>
-            </TouchableOpacity>
+        <GoalInput
+            value={props.goal.achieveItAll}
+            onUpdateCheckbox={onUpdateCheckbox} />
 
-            <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="time"
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
-            />
 
-        </View>
-
+        <ReminderInput value={props.reminder} onUpdateReminder={onUpdateReminder} />
         <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Accountability Partner</Text>
             <View style={[styles.addContainer]}>
@@ -104,7 +55,7 @@ const CreateHabit = (props) => {
             </View>
         </View>
 
-        <TouchableOpacity onPress={props.createHabit}>
+        <TouchableOpacity onPress={onSaveForm}>
             <View style={styles.saveContainer}>
                 <Text>
                     Save
@@ -158,11 +109,6 @@ const styles = StyleSheet.create({
     },
 
     goalContainer: {
-        // marginTop: 7,
-        // maxHeight: 180,
-        // width: 300,
-        // height: 45,
-        // borderRadius: 7,
         justifyContent: 'center',
         flexDirection: 'row',
         backgroundColor: '#FFFFFF',
@@ -209,7 +155,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         margin: 20,
         borderRadius: 20,
-    }, reminderTimeContainer: {
+    },
+    reminderTimeContainer: {
         height: 30,
         width: 70,
         borderRadius: 15,
@@ -222,6 +169,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
     console.log('state', state);
     const { name, frequency, goal, reminder, partner, formError } = state.addHabitForm;
+    console.log('goal', goal.achieveItAll)
     return { name, frequency, goal, reminder, partner, formError };
 }
 

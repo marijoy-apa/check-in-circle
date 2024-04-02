@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 // TabBar component that displays a list of radio options
-const DailyButtons = ({ onSelectPhoneType, preselectedOption, options }) => {
+const DailyButtons = ({ onUpdateDuration, preselectedOption, options }) => {
     const [selectedOption, setSelectedOption] = useState(preselectedOption);
 
     const handleOptionPress = (option) => {
         if (selectedOption.includes(option)) {
             setSelectedOption(selectedOption.filter(item => item !== option))
+            onUpdateDuration(selectedOption.filter(item => item !== option))
         } else {
             setSelectedOption([...selectedOption, option])
+            onUpdateDuration([...selectedOption, option])
+
         }
     };
 

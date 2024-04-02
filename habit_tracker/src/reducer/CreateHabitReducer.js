@@ -2,6 +2,8 @@ import {
     ADD_ERROR,
     ADD_HABIT,
     CLEAR_ERROR_MESSAGE,
+    CLEAR_HABIT_FORM,
+    FETCH_HABITS,
     SIGN_IN,
     SIGN_OUT,
     UPDATE_HABIT_FORM
@@ -16,7 +18,7 @@ const INITIAL_STATE = {
     goal: {
         achieveItAll: 'false'
     },
-    reminder: ["22:30"],
+    reminder: [],
     partner: [],
     formError: null
 }
@@ -29,7 +31,9 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, [action.payload.props]: action.payload.value }
         case ADD_HABIT:
             console.log('add habit')
-            return { ...state }
+            return { ...state };
+        case CLEAR_HABIT_FORM:
+            return INITIAL_STATE
         default:
             console.log('default action', action.type)
             return state

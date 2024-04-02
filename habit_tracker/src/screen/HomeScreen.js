@@ -24,7 +24,7 @@ const HomeScreen = (props) => {
 
         </View>
         <View style={styles.column1}>
-        <View style={[styles.cardContainer, { height: 140 }]}></View>
+            <View style={[styles.cardContainer, { height: 140 }]}></View>
             <View style={[styles.cardContainer, { height: 130 }]}></View>
             <View style={[styles.cardContainer, { height: 140 }]}></View>
             <View style={[styles.cardContainer, { height: 90 }]}></View>
@@ -48,12 +48,13 @@ const styles = StyleSheet.create({
         // alignItems: 'center'
     },
     cardContainer: {
+
         flexDirection: 'row',
         marginTop: 15,
         justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
-        width: '100%',
+        width: '95%',
         height: 60,
         borderRadius: 7,
         shadowColor: '#333333',
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
         },
     },
     column1: {
-        width: 190,
+        width: 180,
     }
 })
 

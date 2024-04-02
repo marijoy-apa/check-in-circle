@@ -9,8 +9,14 @@ const FrequencyInput = ({ preselectedValue, onUpdateFrequency }) => {
     const tabBarOption = ['Daily', 'Weekly', 'Interval']
 
     const onSelectTab = (tab) => {
-        console.log('onselect tab value', ...value, { type: value })
-        onUpdateFrequency({ ...value, type: tab })
+        setValue({ type: tab, duration: value.duration })
+        const frequency = { type: tab, duration: value.duration }
+        onUpdateFrequency(frequency)
+    }
+    const onUpdateDuration = (duration) => {
+        setValue({ type: value.tab, duration: duration })
+        const frequency = { type: value.type, duration: duration }
+        onUpdateFrequency(frequency)
     }
 
     return (
@@ -18,7 +24,7 @@ const FrequencyInput = ({ preselectedValue, onUpdateFrequency }) => {
             <Text style={styles.inputLabel}>Frequency</Text>
             <View style={[styles.frequencyContainer, { minHeight: 100 }]}>
                 <TabBar onSelectTab={onSelectTab} options={tabBarOption} preselectedOption={value.type} />
-                {/* <DailyButtons preselectedOption={value.duration} options={['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']} /> */}
+                <DailyButtons onUpdateDuration={onUpdateDuration} preselectedOption={value.duration} options={['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']} />
             </View>
         </View>
     )
