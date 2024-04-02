@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import Logo from "../components/Logo";
 import AuthForm from "../components/AuthForm";
 import NavLink from "../components/NavLink";
+// import Icon from 'react-native-vector-icons/AntDesign';
 
 
 const LoginScreen = (props) => {
@@ -19,12 +20,13 @@ const LoginScreen = (props) => {
     return (
         <View
             style={styles.pageContainer}>
+            {/* <Icon name="stepforward" size={30} color="#900" /> */}
             <Logo />
             <AuthForm
                 onSubmit={onLogin}
-                submitButtonText="Login" 
+                submitButtonText="Login"
                 errorMessage={props.error}
-                />
+            />
             <NavLink
                 routeName='Signup'
                 text="Don't have and account? " />

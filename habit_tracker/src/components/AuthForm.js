@@ -28,6 +28,7 @@ const AuthForm = ({ submitButtonText, onSubmit, errorMessage }) => {
                 placeholder="Password"
                 value={password}
                 autoCapitalize="none"
+                secureTextEntry
                 onChangeText={(value) => {
                     setPassword(value)
                 }}

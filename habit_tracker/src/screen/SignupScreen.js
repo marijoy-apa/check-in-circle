@@ -24,7 +24,7 @@ const SignupScreen = (props) => {
                 errorMessage={props.error}
                 />
             <NavLink
-                routeName='Login'
+                routeName='Signin'
                 text="Already have an account " />
         </View>
     )
